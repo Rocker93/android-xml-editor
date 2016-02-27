@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:mContext="com.pjv.koranlu2.documenteditor.activity.NodeDetailActivity">
+
+    <item android:id="@+id/action_add_attr"
+        android:icon="@drawable/ic_action_new"
+        android:title="@string/action_add_attr"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_commit"
+        android:icon="@drawable/ic_action_accept"
+        android:title="@string/action_commit"
+        app:showAsAction="ifRoom" />
+
+</menu>

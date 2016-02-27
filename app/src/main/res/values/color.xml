@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="element_node">#7B1FA2</color>
+    <color name="attribute_name">#ff96942e</color>
+    <color name="attribute_value">#00796B</color>
+    <color name="proccessing_node">#ff795208</color>
+    <color name="doctype_node">#ff79240e</color>
+    <color name="text_node">#ff000000</color>
+    <color name="root_node">#ffa4a4a4</color>
+</resources>

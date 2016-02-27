@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:mContext=".MainActivity">
+
+    <item android:id="@+id/action_save"
+        android:title="@string/action_save"
+        android:icon="@drawable/ic_action_save"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_expand_all"
+        android:title="@string/action_expand_all"
+        android:icon="@drawable/ic_expand_more_white"
+        app:showAsAction="ifRoom" />
+    <item android:id="@+id/action_load" android:title="@string/action_load"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_new_file"
+        android:title="@string/action_new_file"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_save_as"
+        android:title="@string/action_save_as"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_export_json"
+        android:title="@string/action_export_json"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_about"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+</menu>

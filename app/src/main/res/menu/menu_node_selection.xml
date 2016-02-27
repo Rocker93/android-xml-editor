@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/add_element_node"
+        android:title="@string/add_element" />
+    <item android:id="@+id/add_text_node"
+        android:title="@string/add_text" />
+    <item android:id="@+id/add_comment_node"
+        android:title="@string/add_comment" />
+    <item android:id="@+id/add_cdata_node"
+        android:title="@string/add_cdata" />
+    <item android:id="@+id/add_processing_node"
+        android:title="@string/add_proc_instr" />
+</menu>

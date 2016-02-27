@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">DocEdit</string>
+    <string name="action_settings">Settings</string>
+    <string name="preference_file_key" translatable="false">com.pjv.koranlu2.documenteditor.PREFERENCE_FILE_KEY</string>
+    <string name="title_activity_node_detail">Node Detail</string>
+    <string name="action_commit">Commit change</string>
+    <string name="title_activity_attribute_dialog">Attribute Dialog</string>
+    <string name="action_save">Save</string>
+    <string name="action_load">Load</string>
+    <string name="action_add">Add new node</string>
+    <string name="action_delete">Delete node</string>
+    <string name="action_add_attr">Add new attribute</string>
+    <string name="action_copy">Copy to clipboard</string>
+    <string name="action_expand_all">Expand all</string>
+    <string name="action_export_json">Export to JSON</string>
+    <string name="action_about">About</string>
+    <string name="about_message">This application was created by Lukáš Kořán for BI-PJV course on FIT CTU.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="export_successful">File exported successfully</string>
+    <string name="export_error">Error during export</string>
+    <string name="whitespace_error">Whitespaces were cropped, can\'t be inside Element</string>
+    <string name="illegal_chars">There are illegal characters in element name</string>
+    <string name="attribute_empty">Attribute name can\'t be empty</string>
+    <string name="attribute_whitespace">Attribute name can\'t contain whitespace, whitespaces were cropped</string>
+    <string name="already_exists">Attribute with same tag already exists</string>
+    <string name="not_exist">Such node doesn\'t exist</string>
+    <string name="text_copied">Text was copied to clipboard</string>
+    <string name="saved_succesfully">File saved successfully</string>
+    <string name="attr_name">Attribute name</string>
+    <string name="attr_val">Attribute value</string>
+    <string name="action_new_file">Create new file</string>
+    <string name="file_not_read">File cannot be opened</string>
+    <string name="file_exists">File already exists</string>
+    <string name="file_not_created">File cannot be created</string>
+    <string name="choose_file_name">Choose file name</string>
+    <string name="file_name">Filename</string>
+    <string name="add_element">Add element</string>
+    <string name="add_text">Add text</string>
+    <string name="add_comment">Add comment</string>
+    <string name="add_cdata">Add CData</string>
+    <string name="add_proc_instr">Add processing instruction</string>
+    <string name="action_collapse_all">Collapse all</string>
+    <string name="save_error">There has been an error while saving the file</string>
+    <string name="action_save_as">Save as...</string>
+    <string name="delete">Delete</string>
+    <string name="change_file">File changed</string>
+    <string name="file_changed_message">File could have changed since DocEdit was last opened, do you want to load DocEdit version or reload file?</string>
+    <string name="load_prefs">Load DocEdit version</string>
+    <string name="reload_file">Reload file</string>
+
+</resources>

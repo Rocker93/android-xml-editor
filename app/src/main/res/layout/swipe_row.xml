@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/swipe_row">
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:background="#FF5534"
+        android:gravity="center"
+        android:weightSum="10">
+        <ImageView
+            android:id="@+id/trash"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:src="@drawable/trash"
+            android:contentDescription="@string/delete" />
+    </LinearLayout>
+    <!-- Bottom View End-->
+
+    <!-- Surface View Start -->
+    <LinearLayout
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--What you want to show in SurfaceView-->
+        <TextView
+            android:id="@+id/row_swipe_text"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:text="Tree row text" />
+    </LinearLayout>
+    <!-- Surface View End -->
+</com.daimajia.swipe.SwipeLayout>

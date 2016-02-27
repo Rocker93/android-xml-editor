@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_directory">Prázdná složka</string>
+    <string name="choose_file">Vyberte soubor</string>
+    <string name="error_selecting_file">Chyba při výběru souboru</string>
+    <string name="storage_removed">Úložiště bylo odpojeno</string>
+</resources>
