@@ -4,7 +4,7 @@
 
     <item android:id="@+id/action_copy_ctx"
         android:title="@string/action_copy"
-        android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
+        android:icon="@drawable/abc_ic_menu_copy_material"
         app:showAsAction="ifRoom" />
     <item android:id="@+id/action_delete_ctx"
         android:title="@string/action_delete"

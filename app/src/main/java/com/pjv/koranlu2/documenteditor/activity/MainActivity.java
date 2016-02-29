@@ -1,16 +1,21 @@
 package com.pjv.koranlu2.documenteditor.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -44,10 +49,13 @@ import javax.xml.parsers.ParserConfigurationException;
 /**
  * Main Activity handling XML tree display and edit
  */
-public class MainActivity extends ActionBarActivity implements FileNameDialog.FileNameListener {
+public class MainActivity extends AppCompatActivity
+        implements FileNameDialog.FileNameListener,
+            ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final String TAG = "Main";
     private static final int OPEN_FILE = 1234;
+    private static final int REQUEST_EXTERNAL_WRITE = 1;
 
     private ListView mListView;
     private TreeViewAdapter mAdapter;
@@ -287,8 +295,7 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
                 } else Log.v(TAG, "Empty");
                 return true;
             case R.id.action_load:
-                //load();
-                // Create the ACTION_GET_CONTENT Intent
+                checkReadWriteRights();
                 Intent getContentIntent = FileUtils.createGetContentIntent("text/xml");
 
                 Intent intent = Intent.createChooser(getContentIntent, getString(R.string.choose_file));
@@ -345,6 +352,7 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
      * Saves to XML file
      */
     private void saveToFile() {
+        checkReadWriteRights();
         if (!mElementList.isEmpty()) {
             Log.v(TAG, "not empty");
             final Handler mHandler = new Handler() {
@@ -370,6 +378,14 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
             thread.start();
 
         } else Log.v(TAG, "Empty");
+    }
+
+    private void checkReadWriteRights() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, "Cannot save file");
+            String[] perm = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, perm, REQUEST_EXTERNAL_WRITE);
+        }
     }
 
     @Override
@@ -474,11 +490,6 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
                 editor.putString("LASTFILE", mFileProcessor.getCurrentFile().getPath() );
             else
                 editor.putString("LASTFILE", "");
-         /*   FileOutputStream fos = openFileOutput("ProgressFile",Context.MODE_PRIVATE);
-            ObjectOutputStream oos= new ObjectOutputStream(fos);
-            oos.writeObject(mElementList);
-            oos.close();
-            fos.close();*/
         } catch (IOException e) {
             Log.e(TAG, "Serialization error", e);
         }
@@ -540,11 +551,6 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
     private void loadFromPreferences() {
         SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         try {
-             /*   FileInputStream fis = openFileInput("ProgressFile");
-                ObjectInputStream ois = new ObjectInputStream(fis);
-                mElementList = (ArrayList) ois.readObject();
-                ois.close();
-                fis.close();*/
             mElementList = (ArrayList<TreeElementI>) ObjectSerializer.deserialize(prefs.getString("TREE", ObjectSerializer.serialize(new ArrayList<TreeElementI>())));
             lastPosition = prefs.getInt("LASTPOSITION",1);
 
@@ -644,18 +650,6 @@ public class MainActivity extends ActionBarActivity implements FileNameDialog.Fi
         super.onStart();  // Always call the superclass method first
         Log.v(TAG, "onStart");
         load();
-
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();  // Always call the superclass method first
-        Log.v(TAG, "onDestroy");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();  // Always call the superclass method first
-        Log.v(TAG, "onRestart");
-    }
 }
