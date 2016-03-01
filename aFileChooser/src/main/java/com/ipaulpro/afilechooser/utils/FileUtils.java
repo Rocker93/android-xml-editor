@@ -288,6 +288,10 @@ public class FileUtils {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
                 }
 
+                //TODO test, new M code
+                File file = new File(uri.getPath());
+                return file.getAbsolutePath();
+
                 // TODO handle non-primary volumes
             }
             // DownloadsProvider

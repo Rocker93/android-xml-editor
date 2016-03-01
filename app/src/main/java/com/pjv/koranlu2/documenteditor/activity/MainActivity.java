@@ -1,6 +1,7 @@
 package com.pjv.koranlu2.documenteditor.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,9 +13,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
@@ -53,9 +54,10 @@ public class MainActivity extends AppCompatActivity
         implements FileNameDialog.FileNameListener,
             ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private static final String TAG = "Main";
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final int OPEN_FILE = 1234;
     private static final int REQUEST_EXTERNAL_WRITE = 1;
+    private static final int REQUEST_EXTERNAL_READ = 2;
 
     private ListView mListView;
     private TreeViewAdapter mAdapter;
@@ -268,7 +270,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                saveToFile();
+                checkRightsAndSave();
                 return true;
             case R.id.action_export_json:
                 if (!mElementList.isEmpty()) {
@@ -295,11 +297,14 @@ public class MainActivity extends AppCompatActivity
                 } else Log.v(TAG, "Empty");
                 return true;
             case R.id.action_load:
-                checkReadWriteRights();
-                Intent getContentIntent = FileUtils.createGetContentIntent("text/xml");
-
-                Intent intent = Intent.createChooser(getContentIntent, getString(R.string.choose_file));
-                startActivityForResult(intent, OPEN_FILE);
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    Log.e(TAG, "Cannot read file");
+                    @SuppressLint("InlinedApi")
+                    String[] perm = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_DOCUMENTS};
+                    ActivityCompat.requestPermissions(this, perm, REQUEST_EXTERNAL_READ);
+                } else {
+                    showLoadFileIntent();
+                }
                 return true;
             case R.id.action_expand_all:
                 if (isExpanded) {
@@ -348,11 +353,17 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void showLoadFileIntent() {
+        Intent getContentIntent = FileUtils.createGetContentIntent("text/xml");
+
+        Intent intent = Intent.createChooser(getContentIntent, getString(R.string.choose_file));
+        startActivityForResult(intent, OPEN_FILE);
+    }
+
     /**
      * Saves to XML file
      */
     private void saveToFile() {
-        checkReadWriteRights();
         if (!mElementList.isEmpty()) {
             Log.v(TAG, "not empty");
             final Handler mHandler = new Handler() {
@@ -380,11 +391,13 @@ public class MainActivity extends AppCompatActivity
         } else Log.v(TAG, "Empty");
     }
 
-    private void checkReadWriteRights() {
+    private void checkRightsAndSave() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             Log.e(TAG, "Cannot save file");
             String[] perm = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions(this, perm, REQUEST_EXTERNAL_WRITE);
+        } else {
+            saveToFile();
         }
     }
 
@@ -405,7 +418,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             mElementList.get(0).setNodeTitle(mFileProcessor.getCurrentFile().getName());
             mAdapter.notifyDataSetChanged();
-            saveToFile();
+            checkRightsAndSave();
         }
     }
 
@@ -541,6 +554,28 @@ public class MainActivity extends AppCompatActivity
                     loadFile();
                 getSupportActionBar().setTitle(getString(R.string.app_name) + " - " + mFileProcessor.getCurrentFile().getName());
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_EXTERNAL_WRITE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    saveToFile();
+                } else {
+                    Toast.makeText(MainActivity.this, "Cannot write file, permission was denied!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            case REQUEST_EXTERNAL_READ:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showLoadFileIntent();
+                } else {
+                    Toast.makeText(MainActivity.this, "Cannot read file, permission was denied!", Toast.LENGTH_SHORT).show();
+                }
+                return;
         }
     }
 
